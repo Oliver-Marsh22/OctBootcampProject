@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
 
     public Rigidbody[] balls;
 
-
+    
     private float horizontalInput;
     private Vector3 ballOffset;
     private bool wasBallThrown;
@@ -24,10 +24,10 @@ public class PlayerController : MonoBehaviour
     {
         ballOffset = ballSpawnPoint.position - throwingArrow.position;
 
-        StartThrow();
+        
     }
 
-    private void StartThrow()
+    public void StartThrow()
     {
         throwingArrowAnim.SetBool("Aiming", true);
         wasBallThrown = false;
@@ -78,11 +78,12 @@ public class PlayerController : MonoBehaviour
     private void TryThrowBall()
     {
         //Throw the ball
-        if (Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space) && !wasBallThrown)
         {
-            wasBallThrown = true;
+            
             selectedBall.AddForce(throwingArrow.forward * throwForce, ForceMode.Impulse);
             throwingArrowAnim.SetBool("Aiming", false);
+             wasBallThrown = true;
         }
     }
 }
