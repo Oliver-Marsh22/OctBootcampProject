@@ -13,11 +13,19 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Pin[] pins;
 
+    [SerializeField]
+    private UIManager uiManager;
+
+    [SerializeField]
+    private Camera mainCam, closeUpCam;
+
     private bool isGamePlaying = false;
     // Start is called before the first frame update
     void Start()
     {
+        closeUpCam.enabled = false;
         StartGame();
+
     }
 
 
@@ -43,31 +51,36 @@ public class GameManager : MonoBehaviour
 
         Invoke(nameof(NextThrow), 3.0f);
 
+
     }
 
     void NextThrow()
     {
+        int fallenPins = CalculateFallenPins();
+        scoreManager.SetFrameScore(fallenPins);
         if (scoreManager.currentFrame == 0)
         {
-            Debug.Log($"Game over {scoreManager.CalculateTotalScore()}");
+            //Debug.Log($"Game over {scoreManager.CalculateTotalScore()}");
+            uiManager.ShowGameOver(scoreManager.CalculateTotalScore());
+            return;
         }
-        else
+        //calculate frame total for ui
+        int frameTotal = 0;
+            for (int i = 0; i < scoreManager.currentFrame - 1; i++) 
         {
-            Debug.Log($"Frame: {scoreManager.currentFrame}, Throw: {scoreManager.currentThrow}");
-            scoreManager.SetFrameScore(CalculateFallenPins());
-            Debug.Log($"Current Score: {scoreManager.CalculateTotalScore()}");
-
-
-            //Get the ball to the start position for throwing
-            playerController.StartThrow();
+            frameTotal += scoreManager.GetFrameScores()[i];
+            uiManager.SetFrameTotal(i, frameTotal);
         }
+        SwitchCam();
+        playerController.StartThrow();
+        
     }
     public int CalculateFallenPins()
     {
         int count = 0;
         foreach (Pin pin in pins)
         {
-            if (pin.isFallen)
+            if (pin.isFallen && pin.gameObject.activeSelf)
             {
                 count++;
                 pin.gameObject.SetActive(false);
@@ -84,5 +97,11 @@ public class GameManager : MonoBehaviour
         {
             pin.ResetPin();
         }
+    }
+
+    public void SwitchCam()
+    {
+        mainCam.enabled = !mainCam.enabled;
+        closeUpCam.enabled = !closeUpCam.enabled;
     }
 }
