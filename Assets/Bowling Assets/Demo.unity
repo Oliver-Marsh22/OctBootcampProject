@@ -4641,7 +4641,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1347974370}
   - component: {fileID: 1347974369}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: GlobalVolume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4661,10 +4661,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IsGlobal: 1
-  priority: 0
+  priority: 86.75
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: a6560a915ef98420e9faacc1c7438823, type: 2}
+  sharedProfile: {fileID: 11400000, guid: 1ece5b1cdeb43df4cb747caab6ea8de0, type: 2}
 --- !u!4 &1347974370
 Transform:
   m_ObjectHideFlags: 0
